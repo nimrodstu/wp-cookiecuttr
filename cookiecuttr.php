@@ -87,13 +87,21 @@ function my_plugin_settings() {
 
 function cookiecutter_opts() {
 	$page = get_option( 'cookie_policy_link' );
+	$cookie_link = get_permalink($page['page_id']);
+	$cookie_message = esc_attr( get_option('cookie_message') );
+	$cookie_accept_button_text = esc_attr( get_option('cookie_accept_button_text') );
+	$cookie_what_are_link_text = esc_attr( get_option('cookie_what_are_link_text') );
 //load javascript to pages head ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function () {
 			jQuery.cookieCuttr({
-		    cookieAnalytics: false,
-		    cookieAcceptButtonText: '<?php echo esc_attr( get_option('cookie_accept_button_text') ); ?>',
-		    cookieMessage: "<?php echo esc_attr( get_option('cookie_message') ); ?> <a href='<?php echo get_permalink($page['page_id']); ?>'><?php echo esc_attr( get_option('cookie_what_are_link_text') ); ?></a> "
+		    cookieAnalytics: false
+		    <?php if(!$cookie_accept_button_text == "") { ?>
+		    	,cookieAcceptButtonText: '<?php echo $cookie_accept_button_text; ?>'
+		    <?php } ?>
+		    <?php if(!$cookie_message == "") { ?>
+		    	,cookieMessage: "<?php echo $cookie_message; ?> <a href='<?php echo $cookie_link; ?>'><?php echo $cookie_what_are_link_text; ?></a> "
+			<?php } ?>
 			});
 		}); 
 	</script>
