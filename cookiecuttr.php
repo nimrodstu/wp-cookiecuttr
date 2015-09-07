@@ -5,7 +5,7 @@
  * Version: 2.0
  * Author: nimrodstu
  * Author URI: http://nimrodstu.com
- * License: A "Slug" license name e.g. GPL2
+ * License: GPL2
  */
 
 
