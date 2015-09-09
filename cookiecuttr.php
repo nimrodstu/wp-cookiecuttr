@@ -12,7 +12,7 @@
 /**
  * Proper way to enqueue scripts and styles
  */
-function cookiecutter_scripts() {
+function wpccbn_scripts() {
 	wp_register_script( 'cookie-js', plugins_url('/scripts/jquery.cookie.js', __FILE__), array('jquery'),'',true  );
 	wp_register_script( 'cookiecutter-jquery', plugins_url('/scripts/jquery.cookiecuttr.js', __FILE__), array('jquery'),'',true  );
 	//wp_register_script( 'cookiecutter-js', plugins_url('/cookiecuttr.js', __FILE__), array('jquery'),'',true  );
@@ -23,26 +23,26 @@ function cookiecutter_scripts() {
 	//wp_enqueue_script( 'cookiecutter-js' );
     wp_enqueue_style( 'cookiecuttr-css' );
 }
-add_action( 'wp_enqueue_scripts', 'cookiecutter_scripts' );
+add_action( 'wp_enqueue_scripts', 'wpccbn_scripts' );
 
 
 //new menu item
-function my_plugin_menu() {
-	add_options_page( 'WP CookieCuttr Options', 'WP CookieCuttr', 'manage_options', 'my-unique-identifier', 'my_plugin_options' );
+function wpccbn_menu() {
+	add_options_page( 'WP CookieCuttr Options', 'WP CookieCuttr', 'manage_options', 'my-unique-identifier', 'wpccbn_options' );
 }
 
-add_action( 'admin_init', 'my_plugin_settings' );
+add_action( 'admin_init', 'wpccbn_settings' );
 
 //set options
-function my_plugin_options() {
+function wpccbn_options() {
 	if ( !current_user_can( 'manage_options' ) )  {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	} ?>
 	<div class="wrap">
 	<h2>CookieCuttr Options</h2>
 		<form method="post" action="options.php">
-		    <?php settings_fields( 'my-plugin-settings-group' ); ?>
-		    <?php do_settings_sections( 'my-plugin-settings-group' ); ?>
+		    <?php settings_fields( 'wpccbn-settings-group' ); ?>
+		    <?php do_settings_sections( 'wpccbn-settings-group' ); ?>
 		    <?php $options = get_option( 'cookie_policy_link' ); ?>
 		    <table class="form-table">
 		    	<tr valign="top">
@@ -76,16 +76,16 @@ function my_plugin_options() {
 		</form>
 	</div>
 <?php }
-add_action( 'admin_menu', 'my_plugin_menu' );
+add_action( 'admin_menu', 'wpccbn_menu' );
 
-function my_plugin_settings() {
-	register_setting( 'my-plugin-settings-group', 'cookie_policy_link' );
-	register_setting( 'my-plugin-settings-group', 'cookie_accept_button_text' );
-	register_setting( 'my-plugin-settings-group', 'cookie_message' );
-	register_setting( 'my-plugin-settings-group', 'cookie_what_are_link_text' );
+function wpccbn_settings() {
+	register_setting( 'wpccbn-settings-group', 'cookie_policy_link' );
+	register_setting( 'wpccbn-settings-group', 'cookie_accept_button_text' );
+	register_setting( 'wpccbn-settings-group', 'cookie_message' );
+	register_setting( 'wpccbn-settings-group', 'cookie_what_are_link_text' );
 }
 
-function cookiecutter_opts() {
+function wpccbn_opts() {
 	$page = get_option( 'cookie_policy_link' );
 	$cookie_link = get_permalink($page['page_id']);
 	$cookie_message = esc_attr( get_option('cookie_message') );
@@ -106,4 +106,4 @@ function cookiecutter_opts() {
 		}); 
 	</script>
 <?php }
-add_action('wp_head', 'cookiecutter_opts');
+add_action('wp_head', 'wpccbn_opts');
